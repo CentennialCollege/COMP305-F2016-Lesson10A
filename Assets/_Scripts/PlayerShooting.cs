@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerShooting : MonoBehaviour {
 
@@ -32,7 +33,12 @@ public class PlayerShooting : MonoBehaviour {
 				if (hit.transform.gameObject.CompareTag ("Barrels")) {
 					Instantiate (this.Explosion, hit.point, Quaternion.identity);
 					Destroy (hit.transform.gameObject);
-				} else {
+				
+				} else if (hit.transform.gameObject.CompareTag ("Enemy")) {
+					Instantiate (this.Explosion, hit.point, Quaternion.identity);
+					Destroy (hit.transform.gameObject);
+				}
+				else {
 					Instantiate (this.BulletImpact, hit.point, Quaternion.identity);
 				}
 
@@ -42,5 +48,9 @@ public class PlayerShooting : MonoBehaviour {
 			// Play Rifle Sound
 			this.RifleShotSound.Play();
 		}
+	}
+
+	void OnTriggerEnter(Collider other) {
+		SceneManager.LoadScene ("Outdoor");
 	}
 }
